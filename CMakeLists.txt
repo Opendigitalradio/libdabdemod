@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.0)
-project(dabdecode CXX)
+project(dabdemod CXX)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "The build type" FORCE)
 endif()
 
-option(BUILD_DOCUMENTATION          "Build the libdabip documentation." OFF)
+option(BUILD_DOCUMENTATION          "Build the libdabdemod documentation." OFF)
 option(BUILD_DOCUMENTATION_ONLY     "Only build the documentation not the libraries." OFF)
 option(BUILD_INTERNAL_DOCUMENTATION "Generate internal developer documentation." OFF)
 option(WITH_TESTS                   "Build and run the unit tests." ON)
@@ -30,7 +30,7 @@ include_directories("include")
 include_directories(SYSTEM "third_party/cute")
 
 if(BUILD_DOCUMENTATION_ONLY)
-  set(BUILD_DOCUMENTATION          ON CACHE BOOL "Build the libdabip documentation." FORCE)
+  set(BUILD_DOCUMENTATION          ON CACHE BOOL "Build the libdabdemod documentation." FORCE)
 else()
   add_subdirectory("src")
 
@@ -47,7 +47,7 @@ if(BUILD_DOCUMENTATION OR BUILD_INTERNAL_DOCUMENTATION)
     set(GENERATE_INTERNAL_DOCS YES)
 
     if(NOT BUILD_DOCUMENTATION)
-      set(BUILD_DOCUMENTATION          ON CACHE BOOL "Build the libdabip documentation." FORCE)
+      set(BUILD_DOCUMENTATION          ON CACHE BOOL "Build the libdabdemod documentation." FORCE)
     endif()
   endif()
 
