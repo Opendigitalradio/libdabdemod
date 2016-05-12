@@ -42,7 +42,7 @@ function(cute_test TEST_NAME)
 
   foreach(DEPENDENCY IN LISTS DEPENDENCIES)
     string(REGEX REPLACE "//[ \t]*@CMAKE_CUTE_DEPENDENCY=(.*)" "\\1" DEPENDENCY ${DEPENDENCY})
-    list(APPEND DEPS "${CMAKE_SOURCE_DIR}/${DEPENDENCY}")
+    list(APPEND DEPS "${PROJECT_SOURCE_DIR}/${DEPENDENCY}")
   endforeach()
 
   message(STATUS "${BYE}Adding test ${BBL}${TEST_NAME}${RST}")
