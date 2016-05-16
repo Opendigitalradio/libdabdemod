@@ -36,6 +36,8 @@ flags = [
     '-I',
     scriptPath + '/include',
     '-isystem',
+    scriptPath + '/common/include',
+    '-isystem',
     scriptPath + '/third_party/cute',
     '-Wall',
     '-Wextra',
@@ -93,5 +95,15 @@ def GetCompilationInfoForFile(filename):
     return database.GetCompilationInfoForFile(filename)
 
 def FlagsForFile(filename, **kwargs):
-    final_flags = MakeRelativePathsInFlagsAbsolute(flags, scriptPath)
+    if database:
+        compilation_info = GetCompilationInfoForFile(filename)
+        if not compilation_info:
+            final_flags = MakeRelativePathsInFlagsAbsolute(flags, scriptPath)
+            return { 'flags': final_flags, 'do_cache': True }
+
+        final_flags = MakeRelativePathsInFlagsAbsolute(compilation_info.compiler_flags_,
+                                                       compilation_info.compiler_working_dir_) + MakeRelativePathsInFlagsAbsolute(flags, scriptPath)
+    else:
+        final_flags = MakeRelativePathsInFlagsAbsolute(flags, scriptPath)
+
     return { 'flags': final_flags, 'do_cache': True }
