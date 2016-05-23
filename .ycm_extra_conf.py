@@ -38,6 +38,8 @@ flags = [
     '-isystem',
     scriptPath + '/common/include',
     '-isystem',
+    scriptPath + '/common/third_party/moodycamel',
+    '-isystem',
     scriptPath + '/third_party/cute',
     '-Wall',
     '-Wextra',
