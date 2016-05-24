@@ -10,7 +10,7 @@
 namespace dab
   {
 
-  namespace __internal_libdabdemod
+  namespace __internal_demod
     {
 
     struct phase_table_entry
@@ -133,7 +133,7 @@ namespace dab
           {{ 0, 1, 2, 1, 0, 3, 3, 2, 2, 3, 2, 1, 2, 1, 3, 2, 0, 1, 2, 1, 0, 3, 3, 2, 2, 3, 2, 1, 2, 1, 3, 2 }}
       }};
 
-      float calculate_phi(__internal_common::types::transmission_mode const mode, std::int16_t carrier)
+      inline float calculate_phi(__internal_common::types::transmission_mode const mode, std::int16_t carrier)
         {
         phase_table_entry const * table = nullptr;
         auto tableLength = 0;
