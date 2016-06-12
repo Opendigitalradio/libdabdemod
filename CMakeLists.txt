@@ -51,6 +51,8 @@ include_directories("include")
 if(BUILD_DOCUMENTATION_ONLY)
   set(BUILD_DOCUMENTATION ON CACHE BOOL "Build the libdabdemod documentation." FORCE)
 else()
+  find_package(Threads)
+
   add_subdirectory(common)
   include_directories(SYSTEM ${DABCOMMON_INCLUDES})
   add_subdirectory("src")

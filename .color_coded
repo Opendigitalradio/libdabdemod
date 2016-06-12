@@ -1,0 +1,8 @@
+-fcolor-diagnostics
+-xc++
+-std=c++11
+-isystem/usr/include/c++/6.1.1
+-isystem common/include
+-isystem common/third_party/moodycamel
+-isystem third_party/cute
+-I include

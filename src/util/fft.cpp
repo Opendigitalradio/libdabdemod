@@ -40,7 +40,7 @@ namespace dab
     void fft::operator()()
       {
       fftwf_execute(m_plan);
-
+/*
       if(m_direction == FFTW_BACKWARD)
         {
         auto const scalingFactor = 1.0 / float(m_length);
@@ -49,6 +49,7 @@ namespace dab
           m_data[elementIdx] *= scalingFactor;
           }
         }
+        */
       }
 
     }
