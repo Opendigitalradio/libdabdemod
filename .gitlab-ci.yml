@@ -1,0 +1,68 @@
+arm-debug:
+  script:
+    - git submodule update --init common
+    - cd build
+    - CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Debug
+    - make -j$(nproc)
+  tags:
+    - arm
+
+arm-release:
+  script:
+    - git submodule update --init common
+    - cd build
+    - CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Release
+    - make -j$(nproc)
+  tags:
+    - arm
+  artifacts:
+    paths:
+      - build/products/Release/lib
+
+x86_64-debug:
+  script:
+    - git submodule update --init common
+    - cd build
+    - CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Debug
+    - make -j$(nproc)
+  tags:
+    - x86_64
+
+x86_64-release:
+  script:
+    - git submodule update --init common
+    - cd build
+    - CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Release
+    - make -j$(nproc)
+  tags:
+    - x86_64
+  artifacts:
+    paths:
+      - build/products/Release/lib
+
+doc-internal:
+  script:
+    - git submodule update --init common
+    - cd build
+    - cmake .. -DBUILD_DOCUMENTATION_ONLY=ON -DBUILD_INTERNAL_DOCUMENTATION=ON
+    - make dabdemod_doc_pdf
+  tags:
+    - x86_64
+  artifacts:
+    paths:
+      - build/dabdemod_doc/html
+      - build/dabdemod_doc/latex/refman.pdf
+
+doc-public:
+  script:
+    - git submodule update --init common
+    - cd build
+    - cmake .. -DBUILD_DOCUMENTATION_ONLY=ON -DBUILD_INTERNAL_DOCUMENTATION=OFF
+    - make dabdemod_doc_pdf
+  tags:
+    - x86_64
+  artifacts:
+    paths:
+      - build/dabdemod_doc/html
+      - build/dabdemod_doc/latex/refman.pdf
+
