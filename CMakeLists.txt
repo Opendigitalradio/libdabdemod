@@ -8,7 +8,7 @@ endif()
 option(BUILD_DOCUMENTATION          "Build the libdabdemod documentation." OFF)
 option(BUILD_DOCUMENTATION_ONLY     "Only build the documentation not the libraries." OFF)
 option(BUILD_INTERNAL_DOCUMENTATION "Generate internal developer documentation." OFF)
-option(WITH_TESTS                   "Build and run the unit tests." ON)
+option(WITH_DEMOD_TESTS             "Build and run the unit tests." ON)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
@@ -57,7 +57,7 @@ else()
   include_directories(SYSTEM ${DABCOMMON_INCLUDES})
   add_subdirectory("src")
 
-  if(WITH_TESTS)
+  if(WITH_DEMOD_TESTS)
     include(CUTE)
     include_directories(SYSTEM "third_party/cute")
     add_subdirectory(test)
