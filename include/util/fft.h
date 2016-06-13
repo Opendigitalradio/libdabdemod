@@ -19,6 +19,16 @@ namespace dab
   namespace __internal_demod
     {
 
+    /**
+     * @internal
+     * @author Felix Morgner
+     *
+     * @brief A fftw3f wrapper
+     *
+     * This class is a wrapper around fftw3f
+     * Most of this implementation is reproduced and adapted from Jan van Katwijk's
+     * dab-rpi (https://github.com/JvanKatwijk/dab-rpi) which is released under GPLv2.
+     */
     struct fft
       {
       explicit fft(std::uint32_t const length, int direction);

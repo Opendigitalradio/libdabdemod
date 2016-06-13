@@ -8,7 +8,7 @@ endif()
 option(BUILD_DOCUMENTATION          "Build the libdabdemod documentation." OFF)
 option(BUILD_DOCUMENTATION_ONLY     "Only build the documentation not the libraries." OFF)
 option(BUILD_INTERNAL_DOCUMENTATION "Generate internal developer documentation." OFF)
-option(WITH_DEMOD_TESTS             "Build and run the unit tests." ON)
+option(DOCUMENTATION_FOR_THESIS     "Build the documentation for the thesis with black hyperlinks." OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
@@ -44,7 +44,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Os")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
 include_directories("include")
 
@@ -56,35 +56,43 @@ else()
   add_subdirectory(common)
   include_directories(SYSTEM ${DABCOMMON_INCLUDES})
   add_subdirectory("src")
-
-  if(WITH_DEMOD_TESTS)
-    include(CUTE)
-    include_directories(SYSTEM "third_party/cute")
-    add_subdirectory(test)
-  endif()
 endif()
 
 if(BUILD_DOCUMENTATION OR BUILD_INTERNAL_DOCUMENTATION)
+
+  if(DOCUMENTATION_FOR_THESIS)
+    set(LATEX_HEADER_PREFIX "thesis_")
+  else()
+    set(LATEX_HEADER_PREFIX "")
+  endif()
+
   set(GENERATE_INTERNAL_DOCS NO)
 
   if(BUILD_INTERNAL_DOCUMENTATION)
     set(GENERATE_INTERNAL_DOCS YES)
 
     if(NOT BUILD_DOCUMENTATION)
-      set(BUILD_DOCUMENTATION ON CACHE BOOL "Build the libdabdemod documentation." FORCE)
+      set(BUILD_DOCUMENTATION ON CACHE BOOL "Build the libdabip documentation." FORCE)
     endif()
   endif()
 
   find_package(Doxygen REQUIRED)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-  add_custom_target(doc ALL ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+
+  add_custom_target(${PROJECT_NAME}_doc ALL ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                     COMMENT "Generating API documentation" VERBATIM)
+
+  add_custom_target(${PROJECT_NAME}_doc_pdf ALL make pdf &>/dev/null
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_doc/latex
+                    DEPENDS ${PROJECT_NAME}_doc
+                    COMMENT "Compiling API documentation")
 endif()
 
 if(HAS_PARENT)
-  set(DABDEMOD_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/include" PARENT_SCOPE)
+  set(DABDEMOD_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/include;${DABCOMMON_INCLUDES}" PARENT_SCOPE)
   set(DABDEMOD_LIBRARIES_PATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"  PARENT_SCOPE)
   set(DABDEMOD_SHARED_LIBRARIES "${PROJECT_NAME}"  PARENT_SCOPE)
   set(DABDEMOD_STATIC_LIBRARIES "${PROJECT_NAME}_static"  PARENT_SCOPE)
 endif(HAS_PARENT)
+

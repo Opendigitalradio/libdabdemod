@@ -19,6 +19,16 @@ namespace dab
   namespace __internal_demod
     {
 
+    /**
+     * @internal
+     * @author Felix Morgner
+     *
+     * @brief DAB phase reference
+     *
+     * This class provides a DAB phas reference
+     * Most of this implementation is reproduced and adapted from Jan van Katwijk's
+     * dab-rpi (https://github.com/JvanKatwijk/dab-rpi) which is released under GPLv2.
+     */
     struct phase_reference
       {
       phase_reference(__internal_common::types::transmission_mode const & mode, std::int16_t signalLevel);

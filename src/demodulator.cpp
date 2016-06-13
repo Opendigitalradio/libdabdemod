@@ -1,6 +1,3 @@
-/*
- * Based on SDR-J
- */
 #include "demodulator.h"
 
 #include <constants/sample_rate.h>
@@ -9,6 +6,8 @@
 #include <array>
 #include <cmath>
 #include <cstring>
+
+/* please check the associated header for references to the original source */
 
 namespace
   {
@@ -21,7 +20,7 @@ namespace dab
   using namespace __internal_common;
   using namespace __internal_common::types;
 
-  demodulator::demodulator(transmission_mode const & mode, sample_queue_t & samples, symbol_queue_t & symbols)
+  demodulator::demodulator(sample_queue_t & samples, symbol_queue_t & symbols, transmission_mode const & mode)
     : m_mode{mode},
       m_sampleQueue{samples},
       m_phaseReference{m_mode, 3},
@@ -52,13 +51,12 @@ namespace dab
     m_symbolHandlerFuture.get();
     }
 
-  void demodulator::operator()() try
+  void demodulator::run() try
     {
     using namespace __internal_common::literals;
     auto constexpr bufferMask = 111111111111111_b;
 
     auto bufferIndex = 0;
-    //auto currentSignalLevel = 0.0f;
 
     auto previous1 = 1000;
     auto previous2 = 1000;
@@ -68,7 +66,6 @@ namespace dab
       m_signalLevel += abs(get_sample(0));
       }
 
-    //m_signalLevel = currentSignalLevel / (10 * m_mode.symbol_duration);
     std::array<float, bufferMask + 1> envelopeBuffer{};
 
 notSynced:

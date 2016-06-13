@@ -1,0 +1,64 @@
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = libdabdecode
+PROJECT_NUMBER         = 1.0
+PROJECT_BRIEF          = "A library for demodulating a DAB signal into OFDM symbols"
+PROJECT_LOGO           =
+OUTPUT_DIRECTORY       = @CMAKE_BINARY_DIR@/@PROJECT_NAME@_doc
+CREATE_SUBDIRS         = YES
+ALLOW_UNICODE_NAMES    = NO
+OUTPUT_LANGUAGE        = English
+BRIEF_MEMBER_DESC      = YES
+REPEAT_BRIEF           = YES
+ABBREVIATE_BRIEF       = "The $name class" \
+                         "The $name widget" \
+                         "The $name file" \
+                         is \
+                         provides \
+                         specifies \
+                         contains \
+                         represents \
+                         a \
+                         an \
+                         the
+ALWAYS_DETAILED_SEC    = YES
+INLINE_INHERITED_MEMB  = NO
+FULL_PATH_NAMES        = NO
+STRIP_FROM_PATH        =
+STRIP_FROM_INC_PATH    =
+SHORT_NAMES            = YES
+MULTILINE_CPP_IS_BRIEF = NO
+INHERIT_DOCS           = YES
+SEPARATE_MEMBER_PAGES  = NO
+TAB_SIZE               = 2
+ALIASES                =
+EXTENSION_MAPPING      = h=C++
+BUILTIN_STL_SUPPORT    = YES
+EXTRACT_LOCAL_CLASSES  = NO
+EXTRACT_PRIVATE        = YES
+HIDE_FRIEND_COMPOUNDS  = YES
+HIDE_UNDOC_CLASSES     = YES
+HIDE_UNDOC_MEMBERS     = YES
+HIDE_SCOPE_NAMES       = YES
+CASE_SENSE_NAMES       = NO
+SHOW_INCLUDE_FILES     = YES
+SHOW_FILES             = NO
+SHOW_NAMESPACES        = YES
+SORT_MEMBERS_CTORS_1ST = YES
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = NO
+INPUT                  = @PROJECT_SOURCE_DIR@/include
+FILE_PATTERNS          = *.h *.dox
+RECURSIVE              = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+VERBATIM_HEADERS       = NO
+GENERATE_HTML          = YES
+HTML_COLORSTYLE_HUE    = 233
+HTML_COLORSTYLE_SAT    = 182
+HTML_COLORSTYLE_GAMMA  = 56
+GENERATE_LATEX         = YES
+USE_PDFLATEX           = YES
+LATEX_HIDE_INDICES     = YES
+LATEX_HEADER           = @PROJECT_SOURCE_DIR@/latex/@LATEX_HEADER_PREFIX@header.tex
+LATEX_FOOTER           = @PROJECT_SOURCE_DIR@/latex/@LATEX_HEADER_PREFIX@footer.tex
+INTERNAL_DOCS          = @GENERATE_INTERNAL_DOCS@

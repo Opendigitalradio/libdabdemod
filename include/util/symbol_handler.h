@@ -19,6 +19,16 @@ namespace dab
   namespace __internal_demod
     {
 
+    /**
+     * @internal
+     * @author Felix Morgner
+     *
+     * @brief DAB symbol handler
+     *
+     * This class processes OFDM symbols in preparation for decoding
+     * Most of this implementation is reproduced and adapted from Jan van Katwijk's
+     * dab-rpi (https://github.com/JvanKatwijk/dab-rpi) which is released under GPLv2.
+     */
     struct symbol_handler
       {
 

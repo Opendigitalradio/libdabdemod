@@ -7,6 +7,18 @@
 #include <cmath>
 #include <cstdint>
 
+/**
+ * @internal
+ * @file
+ * @author Felix Morgner
+ *
+ * @brief DAB phase tables
+ *
+ * This file contains DAB phase tables
+ * Most of this implementation is reproduced and adapted from Jan van Katwijk's
+ * dab-rpi (https://github.com/JvanKatwijk/dab-rpi) which is released under GPLv2.
+ */
+
 namespace dab
   {
 

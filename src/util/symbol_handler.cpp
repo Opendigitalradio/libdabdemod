@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+/* please check the associated header for references to the original source */
+
 namespace dab
   {
 

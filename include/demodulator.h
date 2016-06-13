@@ -16,14 +16,38 @@
 namespace dab
   {
 
+  /**
+   * @author Felix Morgner
+   *
+   * @brief A DAB signal demodulator
+   *
+   * This class demodulates the DAB signal into OFDM symbols ready for decoding.
+   * Most of this implementation is reproduced and adapted from Jan van Katwijk's
+   * dab-rpi (https://github.com/JvanKatwijk/dab-rpi) which is released under GPLv2.
+   */
   struct demodulator
     {
-    demodulator(__internal_common::types::transmission_mode const & mode, sample_queue_t & samples, symbol_queue_t & symbols);
+    /**
+     * @brief Construct a demodulator for a specific mode
+     *
+     * @param samples The queue containing the complex baseband samples
+     * @param symbols The target queue for demodulated OFDM symbols
+     * @param mode The DAB transmission mode
+     */
+    demodulator(sample_queue_t & samples, symbol_queue_t & symbols, __internal_common::types::transmission_mode const & mode);
 
     ~demodulator();
 
-    void operator()();
+    /**
+     * @brief Start the demodulator.
+     *
+     * @note This call blocks until #stop is called
+     */
+    void run();
 
+    /**
+     * @brief Stop the demodulator
+     */
     void stop();
 
     private:
