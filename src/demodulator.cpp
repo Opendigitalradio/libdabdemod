@@ -242,10 +242,10 @@ syncOnPhase:
 
     while(!m_sampleQueue.wait_dequeue_timed(sample, 10))
       {
-      //if(m_stop.load(std::memory_order_acquire))
-       // {
+      if(m_stop.load(std::memory_order_acquire))
+        {
         throw poison_pill{};
-        //}
+        }
       }
 
     m_phaseShift -= phaseShift;
