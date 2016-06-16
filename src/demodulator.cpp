@@ -67,6 +67,7 @@ namespace dab
       }
 
     std::array<float, bufferMask + 1> envelopeBuffer{};
+    auto const carrierSpacing = 1536 / m_mode.carriers * 1000;
 
 notSynced:
 
@@ -153,7 +154,7 @@ syncOnPhase:
         }
       else if(correction != 100)
         {
-        m_coarseCorrection += correction * 1000;
+        m_coarseCorrection += correction * carrierSpacing;
         if(std::abs(m_coarseCorrection) > 35000)
           {
           m_coarseCorrection = 0;
@@ -191,7 +192,7 @@ syncOnPhase:
       m_symbolHandler.handle_msc({m_symbolBuffer.cbegin() + offset, m_symbolBuffer.cbegin() + usefulEnd});
       }
 
-    m_fineCorrection += 0.1 * std::arg(frequencyCorrection) / M_PI * 500;
+    m_fineCorrection += 0.1 * std::arg(frequencyCorrection) / M_PI * carrierSpacing / 2;
 
     bufferIndex = 0;
     currentStrength = 0;
@@ -210,15 +211,15 @@ syncOnPhase:
 
     tries = 0;
 
-    if(m_fineCorrection > 500)
+    if(m_fineCorrection > carrierSpacing / 2)
       {
-      m_coarseCorrection += 1000;
-      m_fineCorrection -= 1000;
+      m_coarseCorrection += carrierSpacing;
+      m_fineCorrection -= carrierSpacing;
       }
-    else if(m_fineCorrection < -500)
+    else if(m_fineCorrection < -carrierSpacing / 2)
       {
-      m_coarseCorrection -= 1000;
-      m_fineCorrection += 1000;
+      m_coarseCorrection -= carrierSpacing;
+      m_fineCorrection += carrierSpacing;
       }
 
     goto syncOnPhase;
