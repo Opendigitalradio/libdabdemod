@@ -278,7 +278,6 @@ syncOnPhase:
       }
 
     auto currentMax = 0.f;
-    auto oldMax = 0.f;
     auto index = 100;
 
     for(int idx{}; idx < kSearchRange; ++idx)
@@ -290,7 +289,6 @@ syncOnPhase:
         sum += std::abs(m_refArg[pos] * m_correlationBuffer[idx + pos]);
         if(sum > currentMax)
           {
-          oldMax = currentMax;
           currentMax = sum;
           index = idx;
           }
