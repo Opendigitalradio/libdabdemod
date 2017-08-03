@@ -5,8 +5,8 @@
 #ifndef __DAB_UTIL__FFT
 #define __DAB_UTIL__FFT
 
-#include <constants/transmission_modes.h>
-#include <types/common_types.h>
+#include <dab/constants/transmission_modes.h>
+#include <dab/types/common_types.h>
 
 #include <fftw3.h>
 
@@ -36,12 +36,12 @@ namespace dab
 
       void operator()();
 
-      __internal_common::sample_t * data() const;
+      internal::sample_t * data() const;
 
       private:
         std::uint32_t const m_length;
         int const m_direction;
-        __internal_common::sample_t * m_data;
+        internal::sample_t * m_data;
 
         fftwf_plan m_plan;
       };

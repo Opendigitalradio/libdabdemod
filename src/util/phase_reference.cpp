@@ -1,5 +1,5 @@
-#include "util/phase_reference.h"
-#include "constants/phase_table.h"
+#include "dab/util/phase_reference.h"
+#include "dab/constants/phase_table.h"
 
 #include <cstring>
 
@@ -8,8 +8,8 @@
 namespace dab
   {
 
-  using namespace __internal_common;
-  using namespace __internal_common::types;
+  using namespace internal;
+  using namespace internal::types;
 
   namespace __internal_demod
     {

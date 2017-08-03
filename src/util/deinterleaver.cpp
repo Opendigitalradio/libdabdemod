@@ -1,4 +1,4 @@
-#include "util/deinterleaver.h"
+#include "dab/util/deinterleaver.h"
 
 #include <stdexcept>
 #include <string>
@@ -11,7 +11,7 @@ namespace dab
   namespace __internal_demod
     {
 
-    using namespace __internal_common::types;
+    using namespace internal::types;
 
     namespace
       {

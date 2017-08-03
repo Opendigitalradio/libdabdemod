@@ -1,22 +1,22 @@
-#include "util/symbol_handler.h"
+#include "dab/util/symbol_handler.h"
 
+#include <chrono>
 #include <cstring>
-
-#include <iostream>
+#include <thread>
 
 /* please check the associated header for references to the original source */
 
 namespace dab
   {
 
-  using namespace __internal_common;
-  using namespace __internal_common::types;
+  using namespace internal;
+  using namespace internal::types;
 
   namespace __internal_demod
     {
 
     symbol_handler::symbol_handler(transmission_mode const & mode,
-                                   moodycamel::BlockingReaderWriterQueue<std::vector<float>> & symbolQueue)
+                                   queue<std::vector<float>> & symbolQueue)
       : m_mode{mode},
         m_phaseReference(m_mode.useful_duration),
         m_symbolQueue{symbolQueue},
@@ -33,12 +33,14 @@ namespace dab
       while(m_running.load(std::memory_order_acquire))
         {
         std::pair<symbol_type, std::vector<sample_t>> entry{};
-        while(!m_symbolBuffer.wait_dequeue_timed(entry, 10))
+        while(!m_symbolBuffer.try_dequeue(entry))
           {
           if(!m_running.load(std::memory_order_acquire))
             {
             return;
             }
+
+          std::this_thread::sleep_for(std::chrono::microseconds(100));
           }
 
         switch(entry.first)

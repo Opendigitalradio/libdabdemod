@@ -1,4 +1,6 @@
-set(LIB_SOURCES
+set(LIBRARY_NAME ${${PROJECT_NAME}_LOWER})
+
+add_library(${LIBRARY_NAME}
   demodulator.cpp
   util/fft.cpp
   util/phase_reference.cpp
@@ -6,8 +8,12 @@ set(LIB_SOURCES
   util/deinterleaver.cpp
 )
 
-add_library(${PROJECT_NAME}_static STATIC ${LIB_SOURCES})
-target_link_libraries(${PROJECT_NAME}_static ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${LIBRARY_NAME}
+  ${LIBRARY_NAME}_iface
+  )
 
-add_library(${PROJECT_NAME} SHARED ${LIB_SOURCES})
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+install(TARGETS ${LIBRARY_NAME}
+  EXPORT ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  )

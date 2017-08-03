@@ -1,7 +1,7 @@
 #ifndef __DAB_UTIL__DEINTERLEAVER
 #define __DAB_UTIL__DEINTERLEAVER
 
-#include <constants/transmission_modes.h>
+#include <dab/constants/transmission_modes.h>
 
 #include <cstdint>
 #include <vector>
@@ -24,7 +24,7 @@ namespace dab
      */
     struct deinterleaver
       {
-      explicit deinterleaver(__internal_common::types::transmission_mode const & mode);
+      explicit deinterleaver(internal::types::transmission_mode const & mode);
 
       std::int16_t map(std::int16_t const carrier);
 

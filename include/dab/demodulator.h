@@ -1,12 +1,12 @@
 #ifndef __DAB__DEMODULATOR
 #define __DAB__DEMODULATOR
 
-#include "util/fft.h"
-#include "util/phase_reference.h"
-#include "util/symbol_handler.h"
+#include "dab/util/fft.h"
+#include "dab/util/phase_reference.h"
+#include "dab/util/symbol_handler.h"
 
-#include <types/common_types.h>
-#include <types/transmission_mode.h>
+#include <dab/types/common_types.h>
+#include <dab/types/transmission_mode.h>
 
 #include <atomic>
 #include <cstdint>
@@ -34,7 +34,7 @@ namespace dab
      * @param symbols The target queue for demodulated OFDM symbols
      * @param mode The DAB transmission mode
      */
-    demodulator(sample_queue_t & samples, symbol_queue_t & symbols, __internal_common::types::transmission_mode const & mode);
+    demodulator(sample_queue_t & samples, symbol_queue_t & symbols, internal::types::transmission_mode const & mode);
 
     ~demodulator();
 
@@ -54,17 +54,17 @@ namespace dab
       static auto constexpr kSearchRange = 72;
       static auto constexpr kCorrelationLength = 24;
 
-      __internal_common::sample_t get_sample(std::int32_t const phaseShift);
-      void get_samples(__internal_common::sample_t * target, std::int16_t count, std::int32_t phaseShift);
+      internal::sample_t get_sample(std::int32_t const phaseShift);
+      void get_samples(internal::sample_t * target, std::int16_t count, std::int32_t phaseShift);
       std::int16_t handle_prs();
 
-      __internal_common::types::transmission_mode const m_mode;
+      internal::types::transmission_mode const m_mode;
       sample_queue_t & m_sampleQueue;
       __internal_demod::phase_reference m_phaseReference;
       __internal_demod::fft m_correlationFft;
 
-      std::vector<__internal_common::sample_t> m_oscilator;
-      std::vector<__internal_common::sample_t> m_symbolBuffer;
+      std::vector<internal::sample_t> m_oscilator;
+      std::vector<internal::sample_t> m_symbolBuffer;
       std::vector<float> m_correlationBuffer;
 
       __internal_demod::symbol_handler m_symbolHandler;

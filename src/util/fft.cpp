@@ -1,4 +1,4 @@
-#include "util/fft.h"
+#include "dab/util/fft.h"
 
 #include <cstring>
 
@@ -6,7 +6,7 @@
 
 namespace dab
   {
-  using namespace dab::__internal_common;
+  using namespace dab::internal;
 
   namespace __internal_demod
     {

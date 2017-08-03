@@ -1,7 +1,7 @@
-#include "demodulator.h"
+#include "dab/demodulator.h"
 
-#include <constants/sample_rate.h>
-#include <literals/binary_literal.h>
+#include <dab/constants/sample_rate.h>
+#include <dab/literals/binary_literal.h>
 
 #include <array>
 #include <cmath>
@@ -17,8 +17,8 @@ namespace
 namespace dab
   {
 
-  using namespace __internal_common;
-  using namespace __internal_common::types;
+  using namespace internal;
+  using namespace internal::types;
 
   demodulator::demodulator(sample_queue_t & samples, symbol_queue_t & symbols, transmission_mode const & mode)
     : m_mode{mode},
@@ -53,7 +53,7 @@ namespace dab
 
   void demodulator::run() try
     {
-    using namespace __internal_common::literals;
+    using namespace dab::literals;
     auto constexpr bufferMask = 111111111111111_b;
 
     auto bufferIndex = 0;
@@ -238,12 +238,13 @@ syncOnPhase:
     {
     sample_t sample{};
 
-    while(!m_sampleQueue.wait_dequeue_timed(sample, 10))
+    while(!m_sampleQueue.try_dequeue(sample))
       {
       if(m_stop.load(std::memory_order_acquire))
         {
         throw poison_pill{};
         }
+      std::this_thread::sleep_for(std::chrono::microseconds(100));
       }
 
     m_phaseShift -= phaseShift;

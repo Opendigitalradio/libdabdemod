@@ -1,7 +1,7 @@
 #ifndef __DAB_CONSTANTS__PHASE_TABLE
 #define __DAB_CONSTANTS__PHASE_TABLE
 
-#include <constants/transmission_modes.h>
+#include <dab/constants/transmission_modes.h>
 
 #include <array>
 #include <cmath>
@@ -145,7 +145,7 @@ namespace dab
           {{ 0, 1, 2, 1, 0, 3, 3, 2, 2, 3, 2, 1, 2, 1, 3, 2, 0, 1, 2, 1, 0, 3, 3, 2, 2, 3, 2, 1, 2, 1, 3, 2 }}
       }};
 
-      inline float calculate_phi(__internal_common::types::transmission_mode const mode, std::int16_t carrier)
+      inline float calculate_phi(internal::types::transmission_mode const mode, std::int16_t carrier)
         {
         phase_table_entry const * table = nullptr;
         auto tableLength = 0;
