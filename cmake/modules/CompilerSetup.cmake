@@ -92,7 +92,7 @@ set(
 
 # Export additional C++ compiler flags for release builds
 set(
-  CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -flto -fvisibility=hidden"
+  CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -flto"
   CACHE STRING "Flags used by the compiler during release builds."
   FORCE
   )
@@ -106,7 +106,7 @@ set(
 
 # Export additional C++ compiler flags for minimum size release builds
 set(
-  CMAKE_CXX_FLAGS_MINSIZEREL "-O2 -DNDEBUG -flto -fvisibility=hidden"
+  CMAKE_CXX_FLAGS_MINSIZEREL "-O2 -DNDEBUG -flto"
   CACHE STRING "Flags used by the compiler during release builds for minimum size."
   FORCE
   )

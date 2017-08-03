@@ -21,7 +21,7 @@ class LibdabdemodConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        lib = '-DBUILD_SHARED_LIBS=%s' % 'On' if self.options.shared else 'Off'
+        lib = '-DBUILD_SHARED_LIBS=%s' % ('On' if self.options.shared else 'Off')
         args = [lib, '-DCMAKE_INSTALL_PREFIX="%s"' % self.package_folder]
         self.run('cmake %s %s %s'
                  % (self.source_folder,
@@ -34,6 +34,3 @@ class LibdabdemodConan(ConanFile):
 
     def requirements(self):
         self.requires('libdabcommon/[>=1.0]@fmorgner/stable')
-
-    # def source(self):
-        # self.run('git clone %s' % self.url)
