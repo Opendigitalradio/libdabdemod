@@ -32,7 +32,7 @@ if(${${PROJECT_NAME}_UPPER}_ENABLE_TESTS)
 endif()
 
 install(EXPORT ${PROJECT_NAME}
-  DESTINATION share/cmake
+  DESTINATION share/${${PROJECT_NAME}_LOWER}/cmake
   )
 
 export(EXPORT ${PROJECT_NAME})
