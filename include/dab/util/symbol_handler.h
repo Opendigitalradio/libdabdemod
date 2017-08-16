@@ -71,7 +71,7 @@ namespace dab
 
         deinterleaver m_deinterleaver;
 
-        std::atomic_bool m_running{};
+        std::atomic_flag m_continue{};
       };
 
     }

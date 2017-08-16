@@ -45,6 +45,7 @@ namespace dab
       }
 
     m_symbolHandlerFuture = std::async(std::launch::async, [&]{ m_symbolHandler.run(); });
+    m_continue.test_and_set();
     }
 
   demodulator::~demodulator()
@@ -233,7 +234,7 @@ syncOnPhase:
 
   void demodulator::stop()
     {
-    m_stop.store(true, std::memory_order_release);
+    m_continue.clear();
     m_symbolHandler.stop();
     }
 
@@ -243,7 +244,7 @@ syncOnPhase:
 
     while(!m_sampleQueue.try_dequeue(sample))
       {
-      if(m_stop.load(std::memory_order_acquire))
+      if(!m_continue.test_and_set())
         {
         throw poison_pill{};
         }
@@ -266,7 +267,7 @@ syncOnPhase:
 
     while(!m_sampleQueue.try_dequeue(transferBuffer))
       {
-      if(m_stop.load(std::memory_order_acquire))
+      if(!m_continue.test_and_set())
         {
         throw poison_pill{};
         }

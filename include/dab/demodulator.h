@@ -76,7 +76,7 @@ namespace dab
       std::int16_t m_fineCorrection{};
       std::int32_t m_coarseCorrection{};
 
-      std::atomic_bool m_stop{};
+      std::atomic_flag m_continue;
 
       bool m_synchronizeOnPRS{true};
       bool m_didSync{};

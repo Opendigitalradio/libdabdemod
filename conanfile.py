@@ -2,35 +2,50 @@
 from conans import ConanFile, CMake
 
 
-class LibdabdemodConan(ConanFile):
+class LibDABDemodConan(ConanFile):
     name = 'libdabdemod'
-    description = 'The demodulation subsystem for the ODR DAB data toolkit'
-    license = 'BSD 3-clause'
     version = '1.0.1'
+    description = (
+        'The DAB signal demodulation infrastructure of the ODR DAB data '
+        'toolkit, that provides types and functions to work with DAB signals.'
+    )
+    settings = (
+        'arch',
+        'build_type',
+        'compiler',
+        'os',
+    )
+    options = {
+        'shared': [True, False],
+    }
+    default_options = (
+        'shared=True',
+    )
     url = 'https://github.com/Opendigitalradio/libdabdemod.git'
-    settings = ['os', 'compiler', 'build_type', 'arch']
-    options = {'shared': [True, False]}
-    default_options = 'shared=True'
-    generators = ['cmake', 'txt']
+    license = 'BSD 3-clause'
     exports_sources = (
-        'cmake/*',
         'CMakeLists.txt',
+        'LICENSE',
+        'README.md',
+        'cmake/*',
         'include/*',
-        'src/*'
+        'src/*',
     )
 
     def build(self):
-        cmake = CMake(self)
-        lib = '-DBUILD_SHARED_LIBS=%s' % ('On' if self.options.shared else 'Off')
-        args = [lib, '-DCMAKE_INSTALL_PREFIX="%s"' % self.package_folder]
-        self.run('cmake %s %s %s'
-                 % (self.source_folder,
-                    cmake.command_line,
-                    ' '.join(args)))
-        self.run('cmake --build . --target install %s' % cmake.build_config)
+        cmake = CMake(self, parallel=True)
+        cmake.configure(source_dir=self.conanfile_directory)
+        cmake.build()
+        cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ['dabdemod']
+        self.cpp_info.libs = [
+            'dabdemod',
+            'fftw3f',
+        ]
+        self.cpp_info.includedirs = [
+            'include'
+        ]
 
     def requirements(self):
-        self.requires('libdabcommon/[>=1.0]@fmorgner/stable')
+        self.requires('libdabcommon/[>=1.0]@Opendigitalradio/stable')

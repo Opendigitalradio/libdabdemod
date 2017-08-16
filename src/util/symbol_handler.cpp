@@ -23,23 +23,21 @@ namespace dab
         m_fft{mode.useful_duration, FFTW_FORWARD},
         m_deinterleaver{mode}
       {
-
+      m_continue.test_and_set();
       }
 
     void symbol_handler::run()
       {
-      m_running.store(true, std::memory_order_release);
 
-      while(m_running.load(std::memory_order_acquire))
+      while(m_continue.test_and_set())
         {
         std::pair<symbol_type, std::vector<sample_t>> entry{};
         while(!m_symbolBuffer.try_dequeue(entry))
           {
-          if(!m_running.load(std::memory_order_acquire))
+          if(!m_continue.test_and_set())
             {
             return;
             }
-
           std::this_thread::sleep_for(std::chrono::microseconds(100));
           }
 
@@ -60,7 +58,7 @@ namespace dab
 
     void symbol_handler::stop()
       {
-      m_running.store(false, std::memory_order_release);
+      m_continue.clear();
       }
 
     void symbol_handler::handle_prs(std::vector<sample_t> const & symbol)
