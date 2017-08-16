@@ -7,6 +7,8 @@
 #include <cmath>
 #include <cstring>
 
+#include <iostream>
+
 /* please check the associated header for references to the original source */
 
 namespace
@@ -232,6 +234,7 @@ syncOnPhase:
   void demodulator::stop()
     {
     m_stop.store(true, std::memory_order_release);
+    m_symbolHandler.stop();
     }
 
   sample_t demodulator::get_sample(std::int32_t const phaseShift)
@@ -257,10 +260,28 @@ syncOnPhase:
 
   void demodulator::get_samples(sample_t * target, std::int16_t count, std::int32_t phaseShift)
     {
-    for(std::int16_t iteration{}; iteration < count; ++iteration)
+    static std::vector<sample_t> transferBuffer{};
+
+    transferBuffer.resize(count);
+
+    while(!m_sampleQueue.try_dequeue(transferBuffer))
       {
-      target[iteration] = get_sample(phaseShift);
+      if(m_stop.load(std::memory_order_acquire))
+        {
+        throw poison_pill{};
+        }
+      std::this_thread::sleep_for(std::chrono::microseconds{100});
       }
+
+    for(auto & sample : transferBuffer)
+      {
+      m_phaseShift -= phaseShift;
+      m_phaseShift = (m_phaseShift + kDefaultSampleRate) % kDefaultSampleRate;
+      sample *= m_oscilator[m_phaseShift];
+      m_signalLevel = 0.00001 * std::abs(sample) + (1 - 0.00001) * m_signalLevel;
+      }
+
+    std::memcpy(target, transferBuffer.data(), count * sizeof(sample_t));
     }
 
   std::int16_t demodulator::handle_prs()
