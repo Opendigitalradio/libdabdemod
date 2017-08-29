@@ -4,7 +4,7 @@ from conans import ConanFile, CMake
 
 class LibDABDemodConan(ConanFile):
     name = 'libdabdemod'
-    version = '1.0.1'
+    version = '1.0.2'
     description = (
         'The DAB signal demodulation infrastructure of the ODR DAB data '
         'toolkit, that provides types and functions to work with DAB signals.'
@@ -34,7 +34,8 @@ class LibDABDemodConan(ConanFile):
 
     def build(self):
         cmake = CMake(self, parallel=True)
-        cmake.configure(source_dir=self.conanfile_directory)
+        cmake.definitions['EXTERNAL_DEPS_VIA'] = 'conan'
+        cmake.configure()
         cmake.build()
         cmake.install()
 
