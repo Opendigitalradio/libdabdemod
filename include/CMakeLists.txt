@@ -11,11 +11,9 @@ target_link_libraries(${LIBRARY_NAME} INTERFACE
   ${${${PROJECT_NAME}_UPPER}_DEPS}
   )
 
-install(TARGETS ${LIBRARY_NAME}
-  EXPORT ${PROJECT_NAME}
-  )
-
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/dab"
-  DESTINATION "include"
-  FILES_MATCHING PATTERN "*.h"
-  )
+if(NOT ${${PROJECT_NAME}_UPPER}_HAS_PARENT)
+  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/dab"
+    DESTINATION "include"
+    FILES_MATCHING PATTERN "*.h"
+    )
+endif()
