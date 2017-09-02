@@ -18,3 +18,9 @@ elseif(EXTERNAL_DEPS_VIA STREQUAL "git")
 else()
   message(FATAL_ERROR "Unknown dependency resolution mechanism '${EXTERNAL_DEPS_VIA}'")
 endif()
+
+find_package(FFTW3F REQUIRED)
+
+list(APPEND ${${PROJECT_NAME}_UPPER}_DEPS
+  ${FFTW3F_LIBRARIES}
+  )
